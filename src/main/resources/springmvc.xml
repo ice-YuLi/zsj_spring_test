@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--
+        1、Spring容器是一个父容器，SpringMVC容器是一个子容器，它继承自Spring容器。因此，在SpringMVC容器中，可以访问到Spring容器中定义的Bean，而在Spring容器中，无法访问SpringMVC容器中定义的Bean。在Web开发中，Controller全部在SpringMVC中扫描，除了Controller之外的Bean，全部在Spring容器中扫描（Service、Dao），按这种方式扫描，扫描完完成后，Controller可以访问到Service。
+            Ⅰ、为什么不全部都在Spring中扫描
+                因为处理器映射器只会去SpringMVC中查找到Controller，如果没有，就找不到，不会去Spring中找，这就决定了，Controller必须在SpringMVC中扫描。
+            Ⅱ、为什么不全部在SpringMVC中扫描
+                在SSM整合或者Spring+SpringMVC+JdbcTemplate中，可以全部在SpringMVC中扫描，但是，在SSH整合中，这种方式不允许。
+        2、最佳实践：
+        Controller在SpringMVC中扫描，视图解析器等在SpringMVC容器中配置
+        Spring中扫描Service、Dao已经其他组件，事务定义、数据源定义都在Spring容器中配置
+     -->
+    <!--开启注解扫描，只扫描Controller注解-->
+    <context:component-scan base-package="com.zsj.*.*.controller" use-default-filters="false">
+        <!-- 只扫描哪些配置注解-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    <mvc:annotation-driven />
+
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--过滤静态资源-->
+    <mvc:resources location="/static/css" mapping="/css/**"/>
+    <mvc:resources location="/static/images/" mapping="/images/**"/>
+    <mvc:resources location="/static/js/" mapping="/js/**"/>
+    <!--开启SpringMVC注解的支持-->
+    <mvc:annotation-driven/>
+    <!--配置拦截器-->
+
+<!--    <mvc:interceptors>-->
+        <!--  <bean class="cn.lzc.interceptor.CustomInterceptor"></bean>--><!--拦截所有请求-->
+
+        <!-- <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/" /><&lt;!&ndash;配置了mapping 这个 将不再起作用&ndash;&gt;
+            <bean class="cn.lzc.interceptor.CustomInterceptor"></bean>
+        </mvc:interceptor>-->
+
+        <!--<mvc:interceptor>-->
+        <!--<mvc:mapping path="/hello" />&lt;!&ndash;配置拦截hello结尾的&ndash;&gt;-->
+        <!--<bean class="cn.lzc.interceptor.CustomInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+
+        <!--登录拦截器-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            <bean class="com.zsj.core.login.interceptor.LoginInterceptor"/>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+</beans>
