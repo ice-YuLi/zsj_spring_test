@@ -1,4 +1,4 @@
-package com.zsj.core.BaseCore.domain;
+package com.zsj.core.baseCore.domain;
 
 import java.io.Serializable;
 

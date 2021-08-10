@@ -1,6 +1,6 @@
 package com.zsj.core.login.domain;
 
-import com.zsj.core.BaseCore.domain.BaseDomain;
+import com.zsj.core.baseCore.domain.BaseDomain;
 
 public class LoginUserDomain extends BaseDomain {
 

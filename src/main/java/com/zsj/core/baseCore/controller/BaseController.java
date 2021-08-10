@@ -1,4 +1,4 @@
-package com.zsj.core.BaseCore.controller;
+package com.zsj.core.baseCore.controller;
 
 import org.springframework.stereotype.Controller;
 

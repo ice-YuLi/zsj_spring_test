@@ -1,6 +1,6 @@
 package com.zsj.core.login.controller;
 
-import com.zsj.core.BaseCore.controller.BaseController;
+import com.zsj.core.baseCore.controller.BaseController;
 import com.zsj.core.login.domain.LoginUserDomain;
 import com.zsj.core.login.service.LoginService;
 import com.zsj.core.redis.RedisService;
